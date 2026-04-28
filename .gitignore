@@ -1,0 +1,9 @@
+cat <<EOT >> .gitignore
+node_modules/
+.env
+.DS_Store
+dist/
+build/
+agent/memory/*
+!agent/memory/.gitkeep
+EOT
