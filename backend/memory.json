@@ -1,0 +1,25 @@
+{
+  "identity": "Anupam A Nair, CSE Student at Ramaiah Institute of Technology",
+  "core_teammates": [
+    "Aditya Hegde",
+    "Akuthota Sai Deepak",
+    "Deepak"
+  ],
+  "active_projects": {
+    "Aegis": "Local AI gatekeeper running on OpenClaw",
+    "IHMS": "Full-stack FastAPI & React medical system",
+    "Nexus": "A new scalable backend microservice"
+  },
+  "recreation_and_hobbies": [
+    "F1 racing games",
+    "CTF puzzles",
+    "Valorant",
+    "Elden Ring"
+  ],
+  "learned_slang": [
+    "The eagle has landed -> means CEO is in the office, critical",
+    "prod gaya -> Hinglish for production is down, critical",
+    "code fat gaya -> Hinglish for critical code compilation failure",
+    "Vite server is crying -> Means the frontend completely crashed, need urgent help"
+  ]
+}
