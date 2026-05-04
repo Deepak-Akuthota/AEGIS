@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #141926;
+  --color-card: #181d2c;
+  --color-accent-red: #ff5f58;
+  --color-accent-purple: #9d4edd;
+  --color-accent-blue: #3a86ff;
+  --color-accent-muted: #6c7a89;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: white;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background-color: color-mix(in srgb, var(--color-card) 60%, transparent);
+    backdrop-filter: blur(16px);
+    /* Neumorphic bevel and shadows */
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    border-right: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: 
+      -8px -8px 16px rgba(255, 255, 255, 0.02), 
+      8px 8px 16px rgba(0, 0, 0, 0.5),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-pressed {
+    background-color: color-mix(in srgb, var(--color-card) 50%, transparent);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    border-left: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 
+      inset 6px 6px 12px rgba(0, 0, 0, 0.4), 
+      inset -6px -6px 12px rgba(255, 255, 255, 0.02);
+  }
+}
