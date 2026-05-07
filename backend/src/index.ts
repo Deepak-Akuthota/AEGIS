@@ -16,6 +16,18 @@ const execPromise = util.promisify(exec);
 const app = express();
 app.use(express.json());
 
+// 🧹 AUTO-CLEANUP: Remove stale Puppeteer lockfiles left from previous crashes
+// This prevents the "browser already running" error on restart
+const WA_SESSION_PATH = path.join(__dirname, '../.wwebjs_auth/session');
+const STALE_FILES = ['SingletonLock', 'SingletonCookie'];
+STALE_FILES.forEach(file => {
+    const filePath = path.join(WA_SESSION_PATH, file);
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        console.log(`🧹 [Aegis] Cleared stale lock: ${file}`);
+    }
+});
+
 const MEMORY_FILE_PATH = path.join(__dirname, '../memory.json');
 const messageHistoryStore: Record<string, string[]> = {};
 
