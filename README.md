@@ -39,7 +39,7 @@ Aegis operates on three distinct psychological states:
 ## 🛠️ Tech Stack
 - **Frontend**: React 18, Vite, TailwindCSS (Vanilla CSS modules), Framer Motion (Animations), Lucide React.
 - **Backend**: Node.js, TypeScript, Express, Socket.io (Real-time events).
-- **AI/Integration**: OpenClaw (Browser automation), Local LLM (via Ollama / Llama 3.1).
+- **AI/Integration**: OpenClaw (Browser automation), `whatsapp-web.js` (Open-source WhatsApp client), Local LLM (via Ollama / Llama 3.1).
 
 ---
 
