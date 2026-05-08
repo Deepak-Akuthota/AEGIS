@@ -9,6 +9,16 @@
 
 ---
 
+## 🚩 The Problem: Context-Switching & Focus Leakage
+In the modern workspace, we are constantly bombarded by "Notification Noise." Research shows that:
+- **The 23-Minute Rule**: It takes an average of **23 minutes** to return to deep focus after a single interruption.
+- **Cognitive Refractory Period**: Even if you don't reply, the mere sight of a notification causes a "Focus Leak," where your brain remains partially attached to the interruption.
+- **Digital Anxiety**: Standard "Silent Modes" often cause anxiety—the fear of missing a genuine emergency (the "Server is Down" or "Family Emergency" text).
+
+**Aegis solves this by acting as a high-fidelity filter.** It gives you the peace of mind that if something *truly* matters, you'll know. If it doesn't, it never reached your screen.
+
+---
+
 ## 🌊 The Philosophy: State-Based Zen
 Aegis operates on three distinct psychological states:
 1. **Idle**: Your workspace preparation area. Monitor your general metrics and prepare for focus.
