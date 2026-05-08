@@ -1,3 +1,2 @@
-2026/05/07-20:19:27.150 196b84 Reusing MANIFEST /Users/anupam/Documents/AEGIS/AEGIS/backend/.wwebjs_auth/session/Default/GCM Store/MANIFEST-000001
-2026/05/07-20:19:27.150 196b84 Recovering log #3
-2026/05/07-20:19:27.150 196b84 Reusing old log /Users/anupam/Documents/AEGIS/AEGIS/backend/.wwebjs_auth/session/Default/GCM Store/000003.log 
+2026/05/08-21:33:32.520 22ef7b Creating DB /Users/anupam/Documents/AEGIS/AEGIS/backend/.wwebjs_auth/session/Default/GCM Store since it was missing.
+2026/05/08-21:33:32.529 22ef7b Reusing MANIFEST /Users/anupam/Documents/AEGIS/AEGIS/backend/.wwebjs_auth/session/Default/GCM Store/MANIFEST-000001

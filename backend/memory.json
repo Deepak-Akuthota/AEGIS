@@ -1,25 +1,31 @@
 {
-  "identity": "Anupam A Nair, CSE Student at Ramaiah Institute of Technology",
+  "identity": "myself anupam, a student developer.",
   "core_teammates": [
-    "Aditya Hegde",
-    "Akuthota Sai Deepak",
-    "Deepak"
+    "deepak",
+    "aditya"
   ],
   "active_projects": {
-    "Aegis": "Local AI gatekeeper running on OpenClaw",
-    "IHMS": "Full-stack FastAPI & React medical system",
-    "Nexus": "A new scalable backend microservice"
+    "aegis": "Active project",
+    "hospital management": "Active project"
   },
   "recreation_and_hobbies": [
-    "F1 racing games",
-    "CTF puzzles",
-    "Valorant",
-    "Elden Ring"
+    "F1",
+    "Valorant"
   ],
   "learned_slang": [
-    "The eagle has landed -> means CEO is in the office, critical",
-    "prod gaya -> Hinglish for production is down, critical",
-    "code fat gaya -> Hinglish for critical code compilation failure",
-    "Vite server is crying -> Means the frontend completely crashed, need urgent help"
+    "prod gaya",
+    "phat gaya",
+    "lag gaye",
+    "server down hai",
+    "scene ho gaya",
+    "urgent hai bhai",
+    "jaldi dekh",
+    "dhamaka ho gaya",
+    "code phat raha hai",
+    "deployment ruk gayi",
+    "bug mil gaya",
+    "fix kar de",
+    "chal nahi raha",
+    "kaand ho gaya"
   ]
 }

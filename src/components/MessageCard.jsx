@@ -29,14 +29,42 @@ const ConfidenceBar = ({ confidence }) => {
 export default function MessageCard({ message }) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handleFeedback = (type) => {
-    setFeedbackSubmitted(true);
-    setTimeout(() => {
-      setShowFeedback(false);
-      setFeedbackSubmitted(false);
-    }, 2000);
+  const handleFeedback = async (type) => {
+    const feedbackData = {
+      type,
+      messageId: message.id,
+      text: feedbackText,
+      originalMessage: message.message
+    };
+
+    // If it's a missed alert, we can also prompt for slang logic
+    if (type === 'missed_alert') {
+      const slangMeaning = window.prompt(`How should Aegis interpret this in the future?\nMessage: "${message.message}"\nExample: "server down"`);
+      if (slangMeaning) {
+        try {
+          await fetch('http://localhost:3000/api/webhook/learn', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category: 'learned_slang', newValue: `${message.message} -> ${slangMeaning}` })
+          });
+        } catch(e) { console.error(e); }
+      }
+    }
+
+    try {
+      // In a real app, we'd log the detailed feedbackText too
+      setFeedbackSubmitted(true);
+      setTimeout(() => {
+        setShowFeedback(false);
+        setFeedbackSubmitted(false);
+        setFeedbackText('');
+      }, 2000);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const getActionStyles = (action) => {
@@ -48,18 +76,6 @@ export default function MessageCard({ message }) {
       case 'blocked':
       default:
         return 'border-accent-muted/30 bg-accent-muted/10 text-accent-muted';
-    }
-  };
-
-  const ActionIcon = () => {
-    switch (message.action) {
-      case 'alert':
-        return <ShieldAlert className="w-5 h-5 text-accent-red" />;
-      case 'auto_reply':
-        return <Bot className="w-5 h-5 text-accent-blue" />;
-      case 'blocked':
-      default:
-        return <ShieldX className="w-5 h-5 text-accent-muted" />;
     }
   };
 
@@ -84,7 +100,7 @@ export default function MessageCard({ message }) {
         damping: 20,
         boxShadow: { repeat: Infinity, repeatType: 'reverse', duration: 2 }
       }}
-      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+      whileHover={{ scale: 1.01 }}
       className={cn(
         "glass p-5 rounded-2xl flex flex-col gap-3 relative overflow-hidden transition-colors duration-300 cursor-pointer",
         isAlert ? "border-accent-red/40 bg-accent-red/5" : "hover:border-white/20",
@@ -100,14 +116,14 @@ export default function MessageCard({ message }) {
           </div>
           <div>
             <h4 className="font-semibold text-white/90">{message.sender}</h4>
-            <p className="text-xs text-white/50">{new Date(message.timestamp).toLocaleTimeString()}</p>
+            <p className="text-xs text-white/50">{message.timestamp ? new Date(message.timestamp).toLocaleTimeString() : 'Just now'}</p>
           </div>
         </div>
         
         <div className="flex items-center gap-2">
           <div className="flex flex-col items-end">
             <span className={cn("text-xs font-semibold px-2 py-1 rounded-full border uppercase tracking-wider", getActionStyles(message.action))}>
-              {message.action.replace('_', ' ')}
+              {(message.action || 'blocked').replace('_', ' ')}
             </span>
           </div>
         </div>
@@ -128,16 +144,6 @@ export default function MessageCard({ message }) {
             <span>AI REASONING</span>
           </div>
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1">
-              <span className="text-white/40">Urgency:</span>
-              <span className={cn(
-                "font-mono font-medium",
-                message.urgency_score > 0.8 ? "text-accent-red" :
-                message.urgency_score > 0.4 ? "text-accent-blue" : "text-white/60"
-              )}>
-                {(message.urgency_score * 100).toFixed(0)}%
-              </span>
-            </span>
             <button 
               onClick={(e) => {
                 e.stopPropagation();
@@ -156,9 +162,9 @@ export default function MessageCard({ message }) {
         
         <div className="flex justify-between items-start gap-4">
           <p className="text-xs text-white/60 italic flex-1">
-            {message.reason}
+            {message.reason || "Decision based on current Deep Work context."}
           </p>
-          <div className="text-white/40 group-hover:text-white/70 transition-colors p-1 rounded-md shrink-0">
+          <div className="text-white/40 p-1 rounded-md shrink-0">
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </div>
         </div>
@@ -180,7 +186,7 @@ export default function MessageCard({ message }) {
                 
                 <div className="grid grid-cols-[80px_1fr] gap-y-2 text-xs">
                   <span className="text-white/40 font-semibold uppercase tracking-wider">Intent:</span>
-                  <span className="text-white/90 capitalize">{message.intent.replace('_', ' ')}</span>
+                  <span className="text-white/90 capitalize">{message.intent?.replace('_', ' ') || 'Neutral'}</span>
                   
                   <span className="text-white/40 font-semibold uppercase tracking-wider mt-1">Keywords:</span>
                   <div className="flex flex-wrap gap-1 mt-1">
@@ -200,11 +206,11 @@ export default function MessageCard({ message }) {
           )}
         </AnimatePresence>
         
-        {message.auto_reply && (
+        {message.auto_reply_text && (
           <div className="glass-pressed p-2 rounded-md mt-1">
             <p className="text-xs text-accent-blue/80 flex items-center gap-2">
               <Bot className="w-3 h-3" />
-              Auto-replied: "{message.auto_reply}"
+              Auto-replied: "{message.auto_reply_text}"
             </p>
           </div>
         )}
@@ -217,26 +223,35 @@ export default function MessageCard({ message }) {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden mt-1"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="glass-pressed p-3 rounded-lg flex flex-col gap-2">
+              <div className="glass-pressed p-4 rounded-lg flex flex-col gap-3">
                 {feedbackSubmitted ? (
-                  <div className="flex items-center gap-2 text-xs text-accent-blue/80 justify-center py-1">
-                    <CheckCircle2 className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-xs text-accent-blue/80 justify-center py-2">
+                    <CheckCircle2 className="w-5 h-5" />
                     <span>Feedback recorded. Thank you!</span>
                   </div>
                 ) : (
                   <>
-                    <p className="text-xs text-white/60 text-center mb-1">Was this decision incorrect?</p>
+                    <p className="text-xs text-white/60 font-medium">Help Aegis improve its decision-making:</p>
+                    
+                    <textarea 
+                      value={feedbackText}
+                      onChange={(e) => setFeedbackText(e.target.value)}
+                      placeholder="Explain why this decision was wrong..."
+                      className="w-full h-20 bg-black/20 border border-white/10 rounded-lg p-2 text-xs text-white/80 focus:outline-none focus:ring-1 focus:ring-accent-blue/50 resize-none"
+                    />
+
                     <div className="grid grid-cols-2 gap-2">
                       <button 
                         onClick={() => handleFeedback('missed_alert')}
-                        className="text-[10px] uppercase tracking-wider font-semibold bg-white/5 hover:bg-white/10 text-white/70 py-1.5 px-2 rounded-md transition-colors border border-white/5"
+                        className="text-[10px] uppercase tracking-wider font-bold bg-white/5 hover:bg-white/10 text-white/70 py-2 px-2 rounded-md transition-colors border border-white/5"
                       >
                         Missed Alert
                       </button>
                       <button 
                         onClick={() => handleFeedback('should_block')}
-                        className="text-[10px] uppercase tracking-wider font-semibold bg-white/5 hover:bg-white/10 text-white/70 py-1.5 px-2 rounded-md transition-colors border border-white/5"
+                        className="text-[10px] uppercase tracking-wider font-bold bg-white/5 hover:bg-white/10 text-white/70 py-2 px-2 rounded-md transition-colors border border-white/5"
                       >
                         Should Block
                       </button>

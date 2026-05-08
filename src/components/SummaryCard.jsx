@@ -13,11 +13,12 @@ function AnimatedNumber({ value }) {
   return <motion.span>{display}</motion.span>;
 }
 
-export default function SummaryCard({ messages, focusTimeSaved = 0 }) {
-  const total = messages.length;
-  const alerted = messages.filter(m => m.action === 'alert').length;
-  const blocked = messages.filter(m => m.action === 'blocked').length;
-  const autoReplied = messages.filter(m => m.action === 'auto_reply').length;
+export default function SummaryCard({ messages, metrics, sessionSummary, isDeepWork }) {
+  const total = metrics?.total || 0;
+  const alerted = metrics?.alerts || 0;
+  const blocked = metrics?.blocked || 0;
+  const autoReplied = metrics?.auto || 0;
+  const focusTimeSaved = metrics?.focusTimeSaved || 0;
 
   return (
     <div className="glass p-6 rounded-2xl flex flex-col gap-6">
@@ -26,7 +27,9 @@ export default function SummaryCard({ messages, focusTimeSaved = 0 }) {
           <Activity className="w-5 h-5 text-accent-blue" />
           Session Summary
         </h3>
-        <p className="text-xs text-white/50 mt-1">Real-time metrics for current deep work session</p>
+        <p className="text-xs text-white/50 mt-1">
+          {isDeepWork ? 'Real-time metrics for current deep work session' : 'Last session performance overview'}
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -76,11 +79,15 @@ export default function SummaryCard({ messages, focusTimeSaved = 0 }) {
 
       <div className="glass-pressed p-4 rounded-xl border border-white/5">
         <h4 className="text-xs font-semibold text-white/70 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <Bot className="w-3.5 h-3.5" /> AI Synthesis
+          <Bot className="w-3.5 h-3.5" /> {isDeepWork ? 'Real-time AI Synthesis' : 'Final Session Synthesis'}
         </h4>
-        <p className="text-sm text-white/60 leading-relaxed italic">
-          "Currently blocking {blocked + autoReplied} low-priority interruptions. {alerted > 0 ? `Alerted you to ${alerted} critical issue(s).` : 'No critical issues detected.'} Focus quality remains high."
-        </p>
+        <div className="text-sm text-white/60 leading-relaxed italic whitespace-pre-wrap">
+          {isDeepWork ? (
+             `Currently blocking ${blocked + autoReplied} interruptions. ${alerted > 0 ? `Alerted you to ${alerted} critical issue(s).` : 'No critical issues detected.'} Focus quality remains high.`
+          ) : (
+            sessionSummary || "Switch Deep Work off to see a full synthesis of missed messages."
+          )}
+        </div>
       </div>
     </div>
   );
