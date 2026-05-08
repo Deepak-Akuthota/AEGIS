@@ -43,6 +43,19 @@ Aegis operates on three distinct psychological states:
 
 ---
 
+## 🛠️ Core SDKs 
+
+### Backend & Interception Layer
+* **[`whatsapp-web.js`](https://wwebjs.dev/)**: The core open-source SDK used to intercept and automate WhatsApp Web natively from the Node.js backend.
+* **[`discord.js`](https://discord.js.org/)**: Powers the backend integration for listening to, managing, and acting upon Discord notifications.
+* **[`Socket.io`](https://socket.io/)**: Establishes the low-latency, real-time bidirectional WebSocket link bridging the OpenClaw AI Gateway and the frontend dashboard.
+
+### Frontend & UI/UX
+* **[`Framer Motion`](https://www.framer.com/motion/)**: The React animation library driving the smooth, psychological state transitions and Zen Mode ripple effects.
+* **[`Lucide React`](https://lucide.dev/)**: Supplies the lightweight, premium SVG icon set used throughout our minimalist UI components.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
