@@ -29,7 +29,7 @@ Aegis operates on three distinct psychological states:
 ## 🛠️ Tech Stack
 - **Frontend**: React 18, Vite, TailwindCSS (Vanilla CSS modules), Framer Motion (Animations), Lucide React.
 - **Backend**: Node.js, TypeScript, Express, Socket.io (Real-time events).
-- **AI/Integration**: OpenClaw (Browser automation), Local LLM (via Ollama/Gemma).
+- **AI/Integration**: OpenClaw (Browser automation), Local LLM (via Ollama / Llama 3.1).
 
 ---
 
@@ -63,7 +63,10 @@ Aegis operates on three distinct psychological states:
    ```env
    PORT=3000
    OPENCLAW_URL=http://localhost:4000
-   LLM_MODEL=gemma2:2b
+   LLM_MODEL=llama3.1
+   DISCORD_TOKEN=your_discord_token
+   OWNER_USERNAMES=your_discord_username
+   MY_WHATSAPP_NUMBER=your_whatsapp_number
    ```
 
 ---
